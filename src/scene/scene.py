@@ -23,7 +23,7 @@ class Scene:
 
 	def draw(self, screen):
 
-		self._display.clean()
+		
 
 		for entity in self._entities:
 

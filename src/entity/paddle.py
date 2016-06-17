@@ -28,7 +28,7 @@ class Paddle(Entity):
 		directory = os.path.dirname(os.path.realpath(__file__))
 		texture   = pygame.image.load(directory + "/../../res/textures/paddle.png")
 		angle     = 0
-		
+
 		if self._side == Paddle.SIDE_TOP:
 
 			angle = -90
@@ -40,7 +40,7 @@ class Paddle(Entity):
 		elif self._side == Paddle.SIDE_RIGHT:
 
 			angle = 180
-		
+
 		self._texture = pygame.transform.rotate(texture, angle)
 		self._rect    = self._texture.get_rect()
 
@@ -59,12 +59,15 @@ class Paddle(Entity):
 	def update(self):
 
 		super(Paddle, self).update()
+		self._y += 1
 
 
 	def draw(self, screen):
 
 		super(Paddle, self).draw(screen)
 
+		self._rect.left = self._x
+		self._rect.top = self._y
 		screen.blit(self._texture, self._rect)
 
 

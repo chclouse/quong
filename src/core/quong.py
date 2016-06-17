@@ -46,9 +46,10 @@ class Quong:
 			# Draw the scene
 			self._scene.draw(self._display.screen)
 
+			self._display.update()
+
 			# Wait until next frame
 			self._clock.tick(self._fps)
-
 
 		return self._exitCode
 

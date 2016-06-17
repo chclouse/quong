@@ -13,19 +13,19 @@ class Display:
 		self._scene = None
 
 
-	def clean(self):
-		
+	def update(self):
+
 		pygame.display.flip()
 
 
 	@property
-	def scene(self):	
+	def scene(self):
 		return self._scene
 
 
 	@scene.setter
 	def scene(self, scene):
-		
+
 		del self._scene
 
 		self._scene = scene

@@ -15,4 +15,6 @@ class GameScene(Scene):
 
 	def draw(self, screen):
 
+		screen.fill((0, 0, 0))
+
 		super(GameScene, self).draw(screen)
