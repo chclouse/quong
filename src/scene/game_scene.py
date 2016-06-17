@@ -4,11 +4,11 @@ from scene.scene import *
 
 class GameScene(Scene):
 
-	def __init__(self):
+	def __init__(self, display):
 
-		super(GameScene, self).__init__()
+		super(GameScene, self).__init__(display)
 
-		self._paddle = Paddle(Paddle.SIDE_RIGHT)
+		self._paddle = Paddle(display, Paddle.SIDE_LEFT)
 
 		self.addEntity(self._paddle)
 

@@ -13,13 +13,9 @@ class Display:
 		self._scene = None
 
 
-	def update(self):
-
-		# Clean the display
+	def clean(self):
+		
 		pygame.display.flip()
-
-		# Draw the scene
-		self._scene.draw(self._screen)
 
 
 	@property
@@ -31,5 +27,11 @@ class Display:
 	def scene(self, scene):
 		
 		del self._scene
-		
+
 		self._scene = scene
+
+
+	@property
+	def screen(self):
+
+		return self._screen

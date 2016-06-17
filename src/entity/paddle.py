@@ -10,14 +10,17 @@ class Paddle(Entity):
 	SIDE_TOP    = 2
 	SIDE_BOTTOM = 3
 
-	def __init__(self, side = SIDE_LEFT):
+	def __init__(self, display, side = SIDE_LEFT):
 
-		super(Paddle, self).__init__()
+		super(Paddle, self).__init__(display)
 
 		self._side = side
+		self._x = 0
+		self._y = 0
 
 		self.loadTexture()
 		self.position()
+
 
 
 	def loadTexture(self):
@@ -44,7 +47,18 @@ class Paddle(Entity):
 
 	def position(self):
 
-		pass
+		if self._side < 2:
+
+			self.y = self._texture.get_width()
+
+		else:
+
+			self.x = self._texture.get_height()
+
+
+	def update(self):
+
+		super(Paddle, self).update()
 
 
 	def draw(self, screen):

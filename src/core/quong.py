@@ -25,8 +25,7 @@ class Quong:
 		self._clock   = pygame.time.Clock()
 		self._display = Display(self._size)
 
-		self._display.scene = GameScene()
-
+		self._scene = GameScene(self._display)
 
 
 	def run(self):
@@ -41,7 +40,13 @@ class Quong:
 
 					self.exit(0)
 
-			self._display.update()
+			# Update the scene
+			self._scene.update()
+
+			# Draw the scene
+			self._scene.draw(self._display.screen)
+
+			# Wait until next frame
 			self._clock.tick(self._fps)
 
 
