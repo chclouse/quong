@@ -28,11 +28,35 @@ class Quong:
 		self._clock   = pygame.time.Clock()
 		self._display = Display(self._size)
 
+<<<<<<< HEAD
 		self._scene = GameScene(self._display)
+=======
+		self._scene      = GameScene(self._display)
+		self._controller = KeyboardController(self._connection)
+
+
+	def connect(self):
+
+		if len(self._argv) == 1:
+
+			self._server = Server()
+			self._server.start()
+
+			self._connection = Client('127.0.0.1')
+
+		else:
+
+			self._connection = Client(self._argv[1])
+>>>>>>> 4f9d2877b61cc4df0ad25bbe3c9b541f858a2a99
 
 
 	def run(self):
 
+<<<<<<< HEAD
+=======
+		self.connect()
+
+>>>>>>> 4f9d2877b61cc4df0ad25bbe3c9b541f858a2a99
 		self.initialize()
 
 		while not self._finished:
