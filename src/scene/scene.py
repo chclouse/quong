@@ -23,8 +23,6 @@ class Scene:
 
 	def draw(self, screen):
 
-		
-
 		for entity in self._entities:
 
 			entity.draw(screen)

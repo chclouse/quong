@@ -28,51 +28,25 @@ class Quong:
 		self._clock   = pygame.time.Clock()
 		self._display = Display(self._size)
 
-		self._scene      = GameScene(self._display)
-		self._controller = KeyboardController()
-
-
-	def connect(self):
-
-		if len(self._argv) == 1:
-
-			self._server = Server()
-			self._server.start()
-
-			self._conneciton = Client('127.0.0.1')
-
-		else:
-
-			self._connection = Client(self._argv[1])
+		self._scene = GameScene(self._display)
 
 
 	def run(self):
 
 		self.initialize()
 
-		self.connect()
-
 		while not self._finished:
 
 			for event in pygame.event.get():
-
-				if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-
-					self._controller.update(event)
 
 				if event.type == pygame.QUIT:
 
 					self.exit(0)
 
-			# Update the scene
 			self._scene.update()
-
-			# Draw the scene
 			self._scene.draw(self._display.screen)
-
 			self._display.update()
 
-			# Wait until next frame
 			self._clock.tick(self._fps)
 
 		self._server.stop()
