@@ -1,3 +1,5 @@
+from . client import *
+from . server import *
 from controller.keyboard_controller import *
 from gui.display import *
 from scene.game_scene import *
@@ -30,9 +32,25 @@ class Quong:
 		self._controller = KeyboardController()
 
 
+	def connect(self):
+
+		if len(self._argv) == 1:
+
+			self._server = Server()
+			self._server.start()
+
+			self._conneciton = Client('127.0.0.1')
+
+		else:
+
+			self._connection = Client(self._argv[1])
+
+
 	def run(self):
 
 		self.initialize()
+
+		self.connect()
 
 		while not self._finished:
 
@@ -56,6 +74,9 @@ class Quong:
 
 			# Wait until next frame
 			self._clock.tick(self._fps)
+
+		self._server.stop()
+		self._server.join()
 
 		return self._exitCode
 
