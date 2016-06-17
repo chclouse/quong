@@ -1,9 +1,13 @@
+from core.quong import *
 import sys
 
 
 def main(argv):
 	
-	print("Quong thing")
+	app = Quong(argv)
+
+	sys.exit(app.run())
+
 
 if __name__ == "__main__":
 	main(sys.argv)
