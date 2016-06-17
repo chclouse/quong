@@ -17,14 +17,25 @@ class Quong:
 		self._exitCode = 0
 
 
+	def initialize(self):
+
+		try:
+
+			pygame.init()
+
+			self._clock   = pygame.time.Clock()
+			self._display = Display(self._size)
+
+		except Exception:
+
+			return False
+
+		return True
+
+
 	def run(self):
 
-		if not pygame.init():
-
-			return 1
-
-		self._clock   = pygame.time.Clock()
-		self._display = Display(self._size)
+		self.initialize()
 
 		while not self._finished:
 
@@ -32,7 +43,7 @@ class Quong:
 
 				if event.type == pygame.QUIT:
 
-					self._finished = True
+					self.exit(0)
 
 			# Refresh the screen
 			self._display.update()
@@ -42,3 +53,9 @@ class Quong:
 
 
 		return self._exitCode
+
+
+	def exit(self, exitCode):
+
+		self._finished = True
+		self._exitCode = exitCode
