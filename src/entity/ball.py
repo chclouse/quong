@@ -7,6 +7,7 @@ class Ball(Entity):
 
 		super(Ball, self).__init__()
 
-	def draw(self):
 
-		super(Ball, self).draw()
+	def draw(self, screen):
+
+		super(Ball, self).draw(screen)

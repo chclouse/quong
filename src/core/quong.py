@@ -1,4 +1,5 @@
 from gui.display import *
+from scene.game_scene import *
 import pygame
 
 
@@ -19,18 +20,13 @@ class Quong:
 
 	def initialize(self):
 
-		try:
+		pygame.init()
 
-			pygame.init()
+		self._clock   = pygame.time.Clock()
+		self._display = Display(self._size)
 
-			self._clock   = pygame.time.Clock()
-			self._display = Display(self._size)
+		self._display.scene = GameScene()
 
-		except Exception:
-
-			return False
-
-		return True
 
 
 	def run(self):
@@ -45,10 +41,7 @@ class Quong:
 
 					self.exit(0)
 
-			# Refresh the screen
 			self._display.update()
-
-			# Make the game run at the given fps
 			self._clock.tick(self._fps)
 
 

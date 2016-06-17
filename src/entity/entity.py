@@ -7,6 +7,6 @@ class Entity:
 		pass
 
 
-	def draw(self):
+	def draw(self, screen):
 
 		pass

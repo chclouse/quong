@@ -16,4 +16,4 @@ class Scene:
 
 		for entity in self._entities:
 
-			self._entities.draw(screen)
+			entity.draw(screen)
