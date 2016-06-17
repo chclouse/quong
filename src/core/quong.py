@@ -29,7 +29,7 @@ class Quong:
 		self._display = Display(self._size)
 
 		self._scene      = GameScene(self._display)
-		self._controller = KeyboardController()
+		self._controller = KeyboardController(self._connection)
 
 
 	def connect(self):
@@ -39,7 +39,7 @@ class Quong:
 			self._server = Server()
 			self._server.start()
 
-			self._conneciton = Client('127.0.0.1')
+			self._connection = Client('127.0.0.1')
 
 		else:
 
@@ -48,9 +48,9 @@ class Quong:
 
 	def run(self):
 
-		self.initialize()
-
 		self.connect()
+
+		self.initialize()
 
 		while not self._finished:
 
