@@ -2,7 +2,9 @@
 QUad pONG -- Four-way pong.
 
 ## Style
-`quong` will follow [PEP-008] with the following exceptions:
+~~`quong` will follow [PEP-008] with the following exceptions:~~
+We pretty much just do our own thing. PEP-008 compliance not ensured. However,
+we do:
 
 1. Variables and functions will be camelCased.
 
