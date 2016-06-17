@@ -1,0 +1,2 @@
+class KeyboardController(Controller):
+	pass
