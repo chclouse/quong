@@ -45,6 +45,17 @@ class Paddle(Entity):
 		self._rect    = self._texture.get_rect()
 
 
+	def move(self, direction):
+
+		if self._side < 2:
+
+			self._y = min(max(self._y + 10 * direction, 0), self._display.height - self._texture.get_height() - self._texture.get_width())
+
+		else:
+
+			self._x = min(max(self.x + 10 * direction, 0), self._display.width - self._texture.get_width() - self._texture.get_height())
+
+
 	def position(self):
 
 		if self._side < 2:

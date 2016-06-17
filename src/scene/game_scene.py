@@ -1,5 +1,6 @@
 from controller.keyboard_controller import *
 from controller.network_controller  import *
+from core.client   import *
 from core.server   import *
 from entity.paddle import *
 from scene.scene   import *
@@ -20,13 +21,17 @@ class GameScene(Scene):
 
 		self.connect()
 
+		self._controller = KeyboardController(self._connection)
+
 
 
 	def connect(self):
 
+		print(sys.argv)
+
 		if len(sys.argv) == 1:
 
-			self._server = Server(self, self._paddles)
+			self._server = Server(self, self._controllers)
 			self._server.start()
 
 			self._connection = Client('127.0.0.1')
@@ -46,19 +51,22 @@ class GameScene(Scene):
 			self._paddles.append(paddle)
 			self._controllers.append(controller)
 
-			self.addEntity(self._paddle)
+			self.addEntity(paddle)
 
 
-		self._controller = KeyboardController(self._connection)
+	def update(self, events):
 
-
-	def update(self):
-
-		for event in pygame.event.get():
+		for event in events:
 
 			if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
 
 				self._controller.update(event)
+
+				print("Key press")
+
+		for controller in self._controllers:
+
+			controller.update()
 
 
 	def draw(self, screen):
@@ -66,3 +74,9 @@ class GameScene(Scene):
 		screen.fill((0, 0, 0))
 
 		super(GameScene, self).draw(screen)
+
+
+	def close(self):
+
+		self._server.stop()
+		self._server.join()

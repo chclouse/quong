@@ -26,3 +26,8 @@ class Scene:
 		for entity in self._entities:
 
 			entity.draw(screen)
+
+
+	def close(self):
+
+		pass

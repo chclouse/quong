@@ -3,16 +3,41 @@ from . controller import *
 
 class NetworkController(Controller):
 
-	def __init__(self):
+	def __init__(self, paddle):
 
 		super(NetworkController, self).__init__()
 
+		self._paddle = paddle
 
-	def receive(self, data):
+		self._left  = False
+		self._right = False
 
-		pass
+
+	def update(self):
+
+		if self._left:
+
+			self._paddle.move(-1)
+
+		elif self._right:
+
+			self._paddle.move(1)
 
 
-	def update(self, event):
+	@property
+	def left(self):
+		return self._left
 
-		pass
+	@left.setter
+	def left(self, value):
+		self._left = value
+
+
+	@property
+	def right(self):
+		return self._right
+
+	@right.setter
+	def right(self, value):
+		self._right = value
+	

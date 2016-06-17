@@ -19,6 +19,16 @@ class Display:
 
 
 	@property
+	def width(self):
+		return self._size[0]
+
+	@property
+	def height(self):
+		return self._size[1]
+	
+
+
+	@property
 	def scene(self):
 		return self._scene
 
