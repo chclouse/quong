@@ -1,2 +1,14 @@
+from controller.controller import *
+
+
 class KeyboardController(Controller):
-	pass
+	
+
+	def __init__(self):
+
+		pass
+
+
+	def update(self, update):
+
+		pass

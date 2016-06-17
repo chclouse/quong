@@ -1,3 +1,4 @@
+from controller.keyboard_controller import *
 from gui.display import *
 from scene.game_scene import *
 import pygame
@@ -25,7 +26,8 @@ class Quong:
 		self._clock   = pygame.time.Clock()
 		self._display = Display(self._size)
 
-		self._scene = GameScene(self._display)
+		self._scene      = GameScene(self._display)
+		self._controller = KeyboardController()
 
 
 	def run(self):
@@ -35,6 +37,10 @@ class Quong:
 		while not self._finished:
 
 			for event in pygame.event.get():
+
+				if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+
+					self._controller.update(event)
 
 				if event.type == pygame.QUIT:
 
