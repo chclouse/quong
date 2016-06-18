@@ -11,6 +11,7 @@ class Client:
 
 		self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self._socket.connect((ipAddress, QUONG_PORT))
+		self._socket.setblocking(False)
 
 		print("Connected")
 
@@ -22,4 +23,8 @@ class Client:
 
 	def receive(self):
 
-		pass
+		try:
+			data = self._socket.recv(128)
+			return data
+		except:
+			return none
