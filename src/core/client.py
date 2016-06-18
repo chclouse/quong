@@ -26,5 +26,5 @@ class Client:
 		try:
 			data = self._socket.recv(128)
 			return data
-		except BlockingIOError:
+		except OSError:
 			return None
