@@ -85,7 +85,7 @@ class GameScene(Scene):
 
 		if not self._host:
 
-			data = self._client.receive()
+			data = self._connection.receive()
 
 			if data:
 
