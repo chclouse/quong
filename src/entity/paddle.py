@@ -18,6 +18,7 @@ class Paddle(Entity):
 		self._x = 0
 		self._y = 0
 		self._deltaTime = 0
+		self._getTicksLastFrame
 
 		self.loadTexture()
 		self.position()
@@ -75,7 +76,7 @@ class Paddle(Entity):
 		t = pygame.time.get_ticks()
 		#deltaTime in seconds.
 		self._deltaTime = (t - getTicksLastFrame) / 1000.0
-		getTicksLastFrame = t
+		self._getTicksLastFrame = t
 
 
 	def draw(self, screen):
