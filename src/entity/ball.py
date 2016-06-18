@@ -1,4 +1,6 @@
 from entity.entity import *
+import os
+import pygame
 
 
 class Ball(Entity):
@@ -11,7 +13,7 @@ class Ball(Entity):
 
 
 	def loadTexture(self):
-		
+
 		directory = os.path.dirname(os.path.realpath(__file__))
 		self._texture =  pygame.image.load(directory + "/../../res/textures/ball.png")
 		self._rect    =  self._texture.get_rect()

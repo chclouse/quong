@@ -2,6 +2,7 @@ from controller.keyboard_controller import *
 from controller.network_controller  import *
 from core.client   import *
 from core.server   import *
+from entity.ball   import *
 from entity.paddle import *
 from scene.scene   import *
 import sys
