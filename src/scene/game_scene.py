@@ -17,6 +17,7 @@ class GameScene(Scene):
 		self._connection  = None
 		self._controllers = []
 		self._paddles     = []
+		self._balls = []
 
 		self.initPaddles()
 
@@ -56,10 +57,13 @@ class GameScene(Scene):
 
 			self.addEntity(paddle)
 
-
 	def initBall(self):
 
-		pass
+		ball = Ball(self._display, self._paddles)
+
+		self._balls.append(ball)
+
+		self.addEntity(ball)
 
 
 	def update(self, events):
@@ -83,7 +87,7 @@ class GameScene(Scene):
 			if data:
 
 				for i in range(0, 4):
-					
+
 					self._paddles[i].x = data[i][0]
 					self._paddles[i].y = data[i][1]
 
