@@ -19,6 +19,7 @@ class GameScene(Scene):
 		self._paddles     = []
 		self._balls = []
 
+		self.initBall()
 		self.initPaddles()
 
 		self.connect()
@@ -56,6 +57,7 @@ class GameScene(Scene):
 			self._controllers.append(controller)
 
 			self.addEntity(paddle)
+
 
 	def initBall(self):
 
