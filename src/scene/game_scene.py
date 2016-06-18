@@ -13,6 +13,7 @@ class GameScene(Scene):
 
 		super(GameScene, self).__init__(display)
 
+		self._host = False
 		self._connection  = None
 		self._controllers = []
 		self._paddles     = []
@@ -30,6 +31,8 @@ class GameScene(Scene):
 		print(sys.argv)
 
 		if len(sys.argv) == 1:
+
+			self._host = True
 
 			self._server = Server(self, self._controllers)
 			self._server.start()
@@ -54,7 +57,14 @@ class GameScene(Scene):
 			self.addEntity(paddle)
 
 
+	def initBall(self):
+
+		pass
+
+
 	def update(self, events):
+
+		super(GameScene, self).update(events)
 
 		for event in events:
 
@@ -62,11 +72,20 @@ class GameScene(Scene):
 
 				self._controller.update(event)
 
-				print("Key press")
-
 		for controller in self._controllers:
 
 			controller.update()
+
+		if not self._host:
+
+			data = self._client.receive()
+
+			if data:
+
+				for i in range(0, 4):
+					
+					self._paddles[i].x = data[i][0]
+					self._paddles[i].y = data[i][1]
 
 
 	def draw(self, screen):

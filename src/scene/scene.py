@@ -14,7 +14,7 @@ class Scene:
 		self._entities.append(entity)
 
 
-	def update(self):
+	def update(self, updates):
 
 		for entity in self._entities:
 
