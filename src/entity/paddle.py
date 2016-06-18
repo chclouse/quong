@@ -17,6 +17,7 @@ class Paddle(Entity):
 		self._side = side
 		self._x = 0
 		self._y = 0
+		self._deltaTime = 0
 
 		self.loadTexture()
 		self.position()
@@ -49,11 +50,11 @@ class Paddle(Entity):
 
 		if self._side < 2:
 
-			self._y = min(max(self._y + 10 * direction, 0), self._display.height - self._texture.get_height() - self._texture.get_width())
+			self._y = min(max(self._y + (50 * direction)*self._deltaTime, 0), self._display.height - self._texture.get_height() - self._texture.get_width())
 
 		else:
 
-			self._x = min(max(self.x + 10 * direction, 0), self._display.width - self._texture.get_width() - self._texture.get_height())
+			self._x = min(max(self.x + (50 * direction)*self._deltaTime, 0), self._display.width - self._texture.get_width() - self._texture.get_height())
 
 
 	def position(self):
@@ -70,7 +71,11 @@ class Paddle(Entity):
 	def update(self):
 
 		super(Paddle, self).update()
-		self._y += 1
+
+		t = pygame.time.get_ticks()
+		#deltaTime in seconds.
+		self._deltaTime = (t - getTicksLastFrame) / 1000.0
+		getTicksLastFrame = t
 
 
 	def draw(self, screen):
