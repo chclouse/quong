@@ -41,11 +41,9 @@ class Server(Thread):
 
 		for i in range(len(self._connections)):
 
-			
+
 			try:
 				data = int.from_bytes(self._connections[i].recv(1), byteorder='big')
-
-				print("Data received", data)
 
 				if data & 0x1:
 

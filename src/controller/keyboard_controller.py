@@ -16,5 +16,3 @@ class KeyboardController(Controller):
 		keyLeftUp = 0x1 if update.key in (pygame.K_UP, pygame.K_LEFT) else 0x0
 
 		self._connection.send(keyPressed | keyDownRight | keyLeftUp)
-
-		print("Key press")
