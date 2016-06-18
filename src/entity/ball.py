@@ -7,8 +7,6 @@ class Ball(Entity):
 
 		super(Ball, self).__init__(display)
 
-		self._texture
-
 		self.loadTexture()
 
 	def loadTexture(self):
