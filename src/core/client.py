@@ -1,6 +1,6 @@
 import socket
 
-QUONG_PORT = 6968
+QUONG_PORT = 6969
 
 class Client:
 

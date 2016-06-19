@@ -12,7 +12,7 @@ class Server(Thread):
 		self._connections = []
 
 		self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self._socket.bind(('', 6968))
+		self._socket.bind(('', 6969))
 		self._socket.listen(4)
 		self._socket.settimeout(0)
 		self._socket.setblocking(False)
