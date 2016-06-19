@@ -1,8 +1,11 @@
 # quong
 QUad pONG -- Four-way pong.
 
+## Dependencies
+`quong` requires Python 3 and [PyGame].
+
 ## Style
-~~`quong` will follow [PEP-008] with the following exceptions:~~
+~~`quong` will follow PEP-008 with the following exceptions:~~
 We pretty much just do our own thing. PEP-008 compliance not ensured. However,
 we do:
 
@@ -15,4 +18,4 @@ we do:
 4. Because 2 of the 3 contributors to this project are masochists, tabs will be
    used over spaces.
 
-[PEP-008]: https://www.python.org/dev/peps/pep-0008/
+[PyGame]: http://pygame.org/download.shtml
