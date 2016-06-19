@@ -1,6 +1,6 @@
 import socket
 
-QUONG_PORT = 6968
+QUONG_PORT = 6969
 
 class Client:
 
@@ -26,5 +26,5 @@ class Client:
 		try:
 			data = self._socket.recv(128)
 			return data
-		except:
-			return none
+		except OSError:
+			return None

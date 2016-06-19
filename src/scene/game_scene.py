@@ -2,6 +2,7 @@ from controller.keyboard_controller import *
 from controller.network_controller  import *
 from core.client   import *
 from core.server   import *
+from entity.ball   import *
 from entity.paddle import *
 from scene.scene   import *
 import sys
@@ -19,6 +20,7 @@ class GameScene(Scene):
 		self._paddles     = []
 		self._balls = []
 
+		self.initBall()
 		self.initPaddles()
 
 		self.connect()
@@ -57,6 +59,7 @@ class GameScene(Scene):
 
 			self.addEntity(paddle)
 
+
 	def initBall(self):
 
 		ball = Ball(self._display, self._paddles)
@@ -82,7 +85,7 @@ class GameScene(Scene):
 
 		if not self._host:
 
-			data = self._client.receive()
+			data = self._connection.receive()
 
 			if data:
 
