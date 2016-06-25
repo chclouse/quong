@@ -28,3 +28,8 @@ class Client:
 			return data
 		except OSError:
 			return None
+
+
+	def stop(self):
+
+		self._socket.close()

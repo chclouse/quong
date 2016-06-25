@@ -104,5 +104,7 @@ class GameScene(Scene):
 
 	def close(self):
 
+		self._connection.stop()
+		
 		self._server.stop()
 		self._server.join()
