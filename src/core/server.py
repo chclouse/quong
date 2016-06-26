@@ -26,7 +26,7 @@ class Server:
 		for i in range(1, len(self._connections)):
 
 			try:
-				print(self._connections[i].send(pickle.dumps(positions)))
+				self._connections[i].send(pickle.dumps(positions))
 			except:
 				pass
 

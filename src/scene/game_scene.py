@@ -92,8 +92,6 @@ class GameScene(Scene):
 
 	def draw(self, screen):
 
-		print("Drawing...")
-
 		screen.fill((0, 0, 0))
 
 		super(GameScene, self).draw(screen)

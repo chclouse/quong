@@ -30,17 +30,17 @@ class Client:
 		data = None
 
 		try:
-			data = pickle.loads(self._socket.recv(1024))
+			data = self._socket.recv(1024)
+
+			positions = pickle.loads(data)
 
 		except socket.error:
 			return
 
-		print(data)
-
 		for i in range(0, 4):
 
-			self._gameScene.paddles[i].x = data[i][0]
-			self._gameScene.paddles[i].y = data[i][1]
+			self._gameScene.paddles[i].x = positions[i][0]
+			self._gameScene.paddles[i].y = positions[i][1]
 
 
 	def stop(self):
