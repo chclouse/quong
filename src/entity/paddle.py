@@ -1,6 +1,7 @@
 from entity.entity import *
-import pygame
+import math
 import os
+import pygame
 
 
 class Paddle(Entity):
@@ -98,6 +99,29 @@ class Paddle(Entity):
 		screen.blit(self._texture, self._rect)
 
 
+	def getNormal(self):
+
+		if self._side == Paddle.SIDE_LEFT:
+
+			return 0
+
+		elif self._side == Paddle.SIDE_BOTTOM:
+
+			return 0.5*math.pi
+
+		elif self._side == Paddle.SIDE_RIGHT:
+
+			return math.pi
+
+		elif self._side == Paddle.SIDE_TOP:
+
+			return 1.5*math.pi
+
+		else:
+
+			return None
+
+
 	@property
 	def side(self):
 
@@ -136,5 +160,8 @@ class Paddle(Entity):
 	@property
 	def height(self):
 		return self._texture.get_height()
-	
-	
+
+
+	@property
+	def rect(self):
+		return self._rect

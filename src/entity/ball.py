@@ -14,6 +14,7 @@ class Ball(Entity):
 		self._speed          = 100
 		self._lastFrameTicks = pygame.time.get_ticks()
 		self._trajectory     = math.pi   # Change to random direction later.
+		self._paddles        = paddles
 
 		self.loadTexture()
 		self._x, self._y = (display.width/2 - self._size[0],
@@ -38,15 +39,37 @@ class Ball(Entity):
 
 		self._x = self._x + math.cos(self._trajectory)*deltaTime*self._speed
 		self._y = self._y + math.sin(self._trajectory)*deltaTime*self._speed
+		self._rect.left = self._x
+		self._rect.top = self._y
+
+		collidingPaddle = self.getCollidingPaddle()
+
+		if collidingPaddle != None:
+
+			# In place of actual physics.
+			self._trajectory = (collidingPaddle.getNormal() + random.uniform(-0.25*math.pi, 0.25*math.pi)) % (2*math.pi)
 
 
 	def draw(self, screen):
 
 		super(Ball, self).draw(screen)
 
-		self._rect.left = self._x
-		self._rect.top = self._y
 		screen.blit(self._texture, self._rect)
+
+
+	def getCollidingPaddle(self):
+
+		paddleRects = [p.rect for p in self._paddles]
+		collision = self._rect.collidelist(paddleRects)
+
+		if collision == -1:
+
+			return None
+
+		else:
+
+			print(self._paddles[collision].__dict__)
+			return self._paddles[collision]
 
 
 	@property
