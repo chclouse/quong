@@ -1,19 +1,16 @@
-from threading import Thread
 import pickle
 import socket
 
-class Server(Thread):
+class Server:
 
 	def __init__(self, scene, controllers):
-
-		super(Server, self).__init__()
 
 		self._scene = scene
 		self._controllers = controllers
 		self._connections = []
 
 		self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self._socket.bind(('', 6968))
+		self._socket.bind(('', 6969))
 		self._socket.listen(4)
 		self._socket.settimeout(0)
 		self._socket.setblocking(False)
@@ -68,17 +65,11 @@ class Server(Thread):
 
 	def run(self):
 
-		while not self._done:
-
-			self.receive()
-			self.send()
-
-		print("Outside of the loop")
+		self.receive()
+		self.send()
 
 
 	def stop(self):
-
-		self._done = True
 
 		for connection in self._connections:
 

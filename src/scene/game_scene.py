@@ -15,10 +15,11 @@ class GameScene(Scene):
 		super(GameScene, self).__init__(display)
 
 		self._host = False
-		self._connection  = None
 		self._controllers = []
 		self._paddles     = []
-		self._balls = []
+		self._balls       = []
+
+		self._connection  = None
 
 		self.initBall()
 		self.initPaddles()
@@ -38,15 +39,12 @@ class GameScene(Scene):
 			self._host = True
 
 			self._server = Server(self, self._controllers)
-			self._server.start()
 
 			self._connection = Client('127.0.0.1', self)
 
 		else:
 
 			self._connection = Client(sys.argv[1], self)
-
-		self._connection.start()
 
 
 	def initPaddles(self):
@@ -85,6 +83,12 @@ class GameScene(Scene):
 
 			controller.update()
 
+		if self._host:
+
+			self._server.run()
+
+		self._connection.receive()
+
 
 	def draw(self, screen):
 
@@ -100,9 +104,13 @@ class GameScene(Scene):
 		print("Closing")
 
 		self._connection.stop()
-		self._connection.join()
 
 		if self._server:
 
 			self._server.stop()
-			self._server.join()
+
+
+	@property
+	def paddles(self):
+		return self._paddles
+	

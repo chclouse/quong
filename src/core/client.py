@@ -1,15 +1,12 @@
-from threading import Thread
 import pickle
 import socket
 
-QUONG_PORT = 6968
+QUONG_PORT = 6969
 
-class Client(Thread):
+class Client:
 
 
 	def __init__(self, ipAddress, gameScene):
-
-		super(Client, self).__init__()
 
 		self._ipAddress = ipAddress
 		self._gameScene = gameScene
@@ -35,26 +32,17 @@ class Client(Thread):
 		try:
 			data = pickle.loads(self._socket.recv(1024))
 
-			print("Receiving...")
-			
-			for i in range(0, 4):
+		except socket.error:
+			return
 
-				self._gameScene.paddles[i].x = data[i][0]
-				self._gameScene.paddles[i].y = data[i][1]
+		print(data)
 
-		except:
-			
-			return None
+		for i in range(0, 4):
 
-
-	def run(self):
-
-		while not self._done:
-
-			self.receive()
+			self._gameScene.paddles[i].x = data[i][0]
+			self._gameScene.paddles[i].y = data[i][1]
 
 
 	def stop(self):
 
-		self._done = True
 		self._socket.close()
