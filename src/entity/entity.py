@@ -7,7 +7,7 @@ class Entity:
 		self._display = display
 
 
-	def update(self):
+	def update(self, delta):
 
 		pass
 

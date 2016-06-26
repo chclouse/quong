@@ -13,7 +13,7 @@ class NetworkController(Controller):
 		self._right = False
 
 
-	def update(self):
+	def update(self, delta):
 
 		if self._left:
 

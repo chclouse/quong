@@ -69,19 +69,19 @@ class GameScene(Scene):
 		self.addEntity(ball)
 
 
-	def update(self, events):
+	def update(self, events, delta):
 
-		super(GameScene, self).update(events)
+		super(GameScene, self).update(events, delta)
 
 		for event in events:
 
 			if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
 
-				self._controller.update(event)
+				self._controller.update(event, delta)
 
 		for controller in self._controllers:
 
-			controller.update()
+			controller.update(delta)
 
 		if self._host:
 
@@ -103,7 +103,7 @@ class GameScene(Scene):
 
 		self._connection.stop()
 
-		if self._server:
+		if self._host:
 
 			self._server.stop()
 

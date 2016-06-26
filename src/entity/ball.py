@@ -29,16 +29,12 @@ class Ball(Entity):
 		self._size    =  self._texture.get_size()
 
 
-	def update(self):
+	def update(self, delta):
 
-		super(Ball, self).update()
+		super(Ball, self).update(delta)
 
-		t = pygame.time.get_ticks()
-		deltaTime = (t - self._lastFrameTicks) / 1000.0
-		self._lastFrameTicks = t
-
-		self._x = self._x + math.cos(self._trajectory)*deltaTime*self._speed
-		self._y = self._y + math.sin(self._trajectory)*deltaTime*self._speed
+		self._x = self._x + math.cos(self._trajectory)*delta*self._speed
+		self._y = self._y + math.sin(self._trajectory)*delta*self._speed
 		self._rect.left = self._x
 		self._rect.top = self._y
 

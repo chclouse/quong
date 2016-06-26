@@ -19,8 +19,7 @@ class Paddle(Entity):
 		self._texture = None
 		self._x = 0
 		self._y = 0
-		self._deltaTime = 0
-		self._getTicksLastFrame = 0
+		self._delta = 0
 		self._speed = 500
 
 		self.loadTexture()
@@ -51,8 +50,6 @@ class Paddle(Entity):
 			angle = 180
 			self._x = self.display.width - self.width
 
-
-
 		self._texture = pygame.transform.rotate(self._texture, angle)
 		self._rect    = self._texture.get_rect()
 
@@ -61,11 +58,11 @@ class Paddle(Entity):
 
 		if self._side < 2:
 
-			self._y = min(max(self._y + (self._speed * direction)*self._deltaTime, self.width), self._display.height - self.height - self.width)
+			self._y = min(max(self._y + (self._speed * direction)*self._delta, self.width), self._display.height - self.height - self.width)
 
 		else:
 
-			self._x = min(max(self.x + (self._speed * direction)*self._deltaTime, self.height), self._display.width - self.width - self.height)
+			self._x = min(max(self.x + (self._speed * direction)*self._delta, self.height), self._display.width - self.width - self.height)
 
 
 	def position(self):
@@ -79,15 +76,11 @@ class Paddle(Entity):
 			self.x = self._texture.get_height()
 
 
-	def update(self):
+	def update(self, delta):
 
-		super(Paddle, self).update()
+		super(Paddle, self).update(delta)
 
-		t = pygame.time.get_ticks()
-
-		#deltaTime in seconds.
-		self._deltaTime = (t - self._getTicksLastFrame) / 1000.0
-		self._getTicksLastFrame = t
+		self._delta = delta
 
 
 	def draw(self, screen):

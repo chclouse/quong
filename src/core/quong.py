@@ -12,10 +12,11 @@ class Quong:
 
 		self._argv = argv
 
-		self._clock   = None
-		self._display = None
-		self._fps     = 60
-		self._size    = (600, 600)
+		self._clock     = None
+		self._display   = None
+		self._fps       = 60
+		self._lastTicks = 0
+		self._size      = (600, 600)
 
 		self._finished = False
 		self._exitCode = 0
@@ -45,8 +46,13 @@ class Quong:
 					
 					self.exit(0)
 
+			ticks = pygame.time.get_ticks()
 
-			self._scene.update(events)
+			#deltaTime in seconds.
+			delta = (ticks - self._lastTicks) / 1000.0
+			self._lastTicks = ticks
+
+			self._scene.update(events, delta)
 			self._scene.draw(self._display.screen)
 			self._display.update()
 

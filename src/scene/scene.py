@@ -14,11 +14,11 @@ class Scene:
 		self._entities.append(entity)
 
 
-	def update(self, updates):
+	def update(self, events, delta):
 
 		for entity in self._entities:
 
-			entity.update()
+			entity.update(delta)
 
 
 	def draw(self, screen):

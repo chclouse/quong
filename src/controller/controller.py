@@ -6,7 +6,7 @@ class Controller:
 
 		pass
 
-	def update(self):
+	def update(self, delta):
 
 		pass
 

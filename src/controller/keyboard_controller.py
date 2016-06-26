@@ -11,7 +11,7 @@ class KeyboardController(Controller):
 		self._connection = connection
 
 
-	def update(self, update):
+	def update(self, update, delta):
 
 		if update.key in KeyboardController.validKeys:
 
