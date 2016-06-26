@@ -15,11 +15,12 @@ class Paddle(Entity):
 		super(Paddle, self).__init__(display)
 
 		self._side = side
+		self._texture = None
 		self._x = 0
 		self._y = 0
 		self._deltaTime = 0
 		self._getTicksLastFrame = 0
-		self._speed = 150
+		self._speed = 500
 
 		self.loadTexture()
 		self.position()
@@ -29,22 +30,29 @@ class Paddle(Entity):
 	def loadTexture(self):
 
 		directory = os.path.dirname(os.path.realpath(__file__))
-		texture   = pygame.image.load(directory + "/../../res/textures/paddle.png")
-		angle     = 0
+		self._texture = pygame.image.load(directory + "/../../res/textures/paddle.png")
 
-		if self._side == Paddle.SIDE_TOP:
+		if self._side == Paddle.SIDE_LEFT:
+
+			angle = 0
+
+		elif self._side == Paddle.SIDE_TOP:
 
 			angle = -90
 
 		elif self._side == Paddle.SIDE_BOTTOM:
 
 			angle = 90
+			self._y = self.display.height - self.width
 
-		elif self._side == Paddle.SIDE_RIGHT:
+		else:
 
 			angle = 180
+			self._x = self.display.width - self.width
 
-		self._texture = pygame.transform.rotate(texture, angle)
+
+
+		self._texture = pygame.transform.rotate(self._texture, angle)
 		self._rect    = self._texture.get_rect()
 
 
@@ -52,11 +60,11 @@ class Paddle(Entity):
 
 		if self._side < 2:
 
-			self._y = min(max(self._y + (self._speed * direction)*self._deltaTime, 0), self._display.height - self._texture.get_height() - self._texture.get_width())
+			self._y = min(max(self._y + (self._speed * direction)*self._deltaTime, self.width), self._display.height - self.height - self.width)
 
 		else:
 
-			self._x = min(max(self.x + (self._speed * direction)*self._deltaTime, 0), self._display.width - self._texture.get_width() - self._texture.get_height())
+			self._x = min(max(self.x + (self._speed * direction)*self._deltaTime, self.height), self._display.width - self.width - self.height)
 
 
 	def position(self):
@@ -75,6 +83,7 @@ class Paddle(Entity):
 		super(Paddle, self).update()
 
 		t = pygame.time.get_ticks()
+
 		#deltaTime in seconds.
 		self._deltaTime = (t - self._getTicksLastFrame) / 1000.0
 		self._getTicksLastFrame = t
@@ -104,7 +113,7 @@ class Paddle(Entity):
 	@x.setter
 	def x(self, value):
 
-		self._x = value
+		self._x = int(value)
 
 
 	@property
@@ -116,4 +125,16 @@ class Paddle(Entity):
 	@y.setter
 	def y(self, value):
 
-		self._y = value
+		self._y = int(value)
+
+	@property
+	def width(self):
+
+		return self._texture.get_width()
+
+
+	@property
+	def height(self):
+		return self._texture.get_height()
+	
+	

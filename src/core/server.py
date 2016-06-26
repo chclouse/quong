@@ -1,4 +1,5 @@
 from threading import Thread
+import pickle
 import socket
 
 class Server(Thread):
@@ -12,7 +13,7 @@ class Server(Thread):
 		self._connections = []
 
 		self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self._socket.bind(('', 6969))
+		self._socket.bind(('', 6968))
 		self._socket.listen(4)
 		self._socket.settimeout(0)
 		self._socket.setblocking(False)
@@ -22,7 +23,15 @@ class Server(Thread):
 
 	def send(self):
 
-		pass
+		# Create a list of all of the paddle's positions
+		positions = [(controller.paddle.x, controller.paddle.y) for controller in self._controllers]
+
+		for i in range(1, len(self._connections)):
+
+			try:
+				print(self._connections[i].send(pickle.dumps(positions)))
+			except:
+				pass
 
 
 	def receive(self):

@@ -31,3 +31,9 @@ class Scene:
 	def close(self):
 
 		pass
+
+
+	@property
+	def display(self):
+		return self._display
+	

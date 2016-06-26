@@ -15,3 +15,9 @@ class Entity:
 	def draw(self, screen):
 
 		pass
+
+
+	@property
+	def display(self):
+		return self._display
+	

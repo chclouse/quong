@@ -40,11 +40,13 @@ class GameScene(Scene):
 			self._server = Server(self, self._controllers)
 			self._server.start()
 
-			self._connection = Client('127.0.0.1')
+			self._connection = Client('127.0.0.1', self)
 
 		else:
 
-			self._connection = Client(sys.argv[1])
+			self._connection = Client(sys.argv[1], self)
+
+		self._connection.start()
 
 
 	def initPaddles(self):
@@ -83,19 +85,10 @@ class GameScene(Scene):
 
 			controller.update()
 
-		if not self._host:
-
-			data = self._connection.receive()
-
-			if data:
-
-				for i in range(0, 4):
-
-					self._paddles[i].x = data[i][0]
-					self._paddles[i].y = data[i][1]
-
 
 	def draw(self, screen):
+
+		print("Drawing...")
 
 		screen.fill((0, 0, 0))
 
@@ -104,7 +97,12 @@ class GameScene(Scene):
 
 	def close(self):
 
+		print("Closing")
+
 		self._connection.stop()
-		
-		self._server.stop()
-		self._server.join()
+		self._connection.join()
+
+		if self._server:
+
+			self._server.stop()
+			self._server.join()

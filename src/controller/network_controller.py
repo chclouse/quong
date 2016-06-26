@@ -25,6 +25,12 @@ class NetworkController(Controller):
 
 
 	@property
+	def paddle(self):
+		return self._paddle
+	
+
+
+	@property
 	def left(self):
 		return self._left
 
