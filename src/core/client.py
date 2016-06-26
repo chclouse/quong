@@ -37,6 +37,9 @@ class Client:
 		except socket.error:
 			return
 
+		except EOFError:
+			return
+
 		for i in range(0, 4):
 
 			self._gameScene.paddles[i].x = positions[i][0]
