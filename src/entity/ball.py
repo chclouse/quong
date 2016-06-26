@@ -13,10 +13,11 @@ class Ball(Entity):
 
 		self._speed          = 100
 		self._lastFrameTicks = pygame.time.get_ticks()
-		self._trajectory     = random.randint(0, 3) * 0.5 * math.pi
+		self._trajectory     = math.pi   # Change to random direction later.
 
 		self.loadTexture()
-		self._x, self._y = display.width/2 - self._size[0], display.height/2 - self._size[1]
+		self._x, self._y = (display.width/2 - self._size[0],
+		                    display.height/2 - self._size[1])
 
 
 	def loadTexture(self):
@@ -46,3 +47,39 @@ class Ball(Entity):
 		self._rect.left = self._x
 		self._rect.top = self._y
 		screen.blit(self._texture, self._rect)
+
+
+	@property
+	def speed(self):
+		return self._speed
+
+	@speed.setter
+	def speed(self, value):
+		self._speed = value
+
+
+	@property
+	def trajectory(self):
+		return self._trajectory
+
+	@trajectory.setter
+	def trajectory(self, value):
+		self._trajectory = value
+
+
+	@property
+	def x(self):
+		return self._x
+
+	@x.setter
+	def x(self, value):
+		self._x = value
+
+
+	@property
+	def y(self):
+		return self._y
+
+	@y.setter
+	def y(self, value):
+		self._y = value
