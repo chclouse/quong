@@ -1,12 +1,12 @@
+from controller.network_controller import *
 import pickle
 import socket
 
 class Server:
 
-	def __init__(self, scene, controllers):
+	def __init__(self, scene):
 
 		self._scene = scene
-		self._controllers = controllers
 		self._connections = []
 
 		self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -21,7 +21,7 @@ class Server:
 	def send(self):
 
 		# Create a list of all of the paddle's positions
-		positions = [(controller.paddle.x, controller.paddle.y) for controller in self._controllers]
+		positions = [(controller.paddle.x, controller.paddle.y) for controller in self._scene.controllers]
 
 		for i in range(1, len(self._connections)):
 
@@ -40,24 +40,26 @@ class Server:
 
 				connection.setblocking(False)
 
+				index = len(self._connections)
+
+				self._scene.controllers[index] = NetworkController(self._scene, self._scene.paddles[index])
 				self._connections.append(connection)
 
-			except:
-				pass
+			except Exception as e:
+				print(e)
 
 		for i in range(len(self._connections)):
-
 
 			try:
 				data = int.from_bytes(self._connections[i].recv(1), byteorder='big')
 
 				if data & 0x1:
 
-					self._controllers[i].left = data & 0x4
+					self._scene.controllers[i].left = data & 0x4
 
 				else:
 
-					self._controllers[i].right = data & 0x4
+					self._scene.controllers[i].right = data & 0x4
 
 			except Exception as e:
 				continue

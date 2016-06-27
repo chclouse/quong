@@ -2,11 +2,17 @@
 
 class Controller:
 
-	def __init__(self):
+	def __init__(self, scene):
 
-		pass
+		self._scene = scene
+
 
 	def update(self, delta):
 
 		pass
 
+
+	@property
+	def scene(self):
+		return self._scene
+	

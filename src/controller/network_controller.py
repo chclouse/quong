@@ -3,9 +3,9 @@ from . controller import *
 
 class NetworkController(Controller):
 
-	def __init__(self, paddle):
+	def __init__(self, scene, paddle):
 
-		super(NetworkController, self).__init__()
+		super(NetworkController, self).__init__(scene)
 
 		self._paddle = paddle
 

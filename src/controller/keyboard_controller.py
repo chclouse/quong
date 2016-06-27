@@ -6,7 +6,9 @@ class KeyboardController(Controller):
 
 	validKeys = (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT)
 
-	def __init__(self, connection):
+	def __init__(self, scene, connection):
+
+		super(KeyboardController, self).__init__(scene)
 
 		self._connection = connection
 

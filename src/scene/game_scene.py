@@ -1,3 +1,4 @@
+from controller.ai_controller import *
 from controller.keyboard_controller import *
 from controller.network_controller  import *
 from core.client   import *
@@ -21,13 +22,12 @@ class GameScene(Scene):
 
 		self._connection  = None
 
-		self.initBall()
 		self.initPaddles()
+		self.initBall()
 
 		self.connect()
 
-		self._controller = KeyboardController(self._connection)
-
+		self._controller = KeyboardController(self, self._connection)
 
 
 	def connect(self):
@@ -38,7 +38,7 @@ class GameScene(Scene):
 
 			self._host = True
 
-			self._server = Server(self, self._controllers)
+			self._server = Server(self)
 
 			self._connection = Client('127.0.0.1', self)
 
@@ -52,10 +52,9 @@ class GameScene(Scene):
 		for i in range(0, 4):
 
 			paddle = Paddle(self._display, i)
-			controller = NetworkController(paddle)
 
 			self._paddles.append(paddle)
-			self._controllers.append(controller)
+			self._controllers.append(AiController(self, paddle, i))
 
 			self.addEntity(paddle)
 
@@ -107,6 +106,17 @@ class GameScene(Scene):
 
 			self._server.stop()
 
+
+	@property
+	def balls(self):
+		return self._balls
+	
+
+
+	@property
+	def controllers(self):
+		return self._controllers
+	
 
 	@property
 	def paddles(self):
