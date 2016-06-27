@@ -21,6 +21,8 @@ class Quong:
 		self._finished = False
 		self._exitCode = 0
 
+		pygame.mixer.init()
+
 
 	def initialize(self):
 
@@ -43,7 +45,7 @@ class Quong:
 			for event in events:
 
 				if event.type == pygame.QUIT:
-					
+
 					self.exit(0)
 
 			ticks = pygame.time.get_ticks()
