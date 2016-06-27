@@ -21,7 +21,11 @@ class Server:
 	def send(self):
 
 		# Create a list of all of the paddle's positions
-		positions = [(controller.paddle.x, controller.paddle.y) for controller in self._scene.controllers]
+		positions = []
+		positions.append([(controller.paddle.x, controller.paddle.y) for controller in self._scene.controllers])
+		positions.append([(ball.x, ball.y) for ball in self._scene.balls])
+
+		print(positions)
 
 		for i in range(1, len(self._connections)):
 

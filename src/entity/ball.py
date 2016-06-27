@@ -7,9 +7,9 @@ import random
 
 class Ball(Entity):
 
-	def __init__(self, display, paddles):
+	def __init__(self, scene, display, paddles):
 
-		super(Ball, self).__init__(display)
+		super(Ball, self).__init__(scene, display)
 
 		self._speed          = 100
 		self._lastFrameTicks = pygame.time.get_ticks()
@@ -23,7 +23,6 @@ class Ball(Entity):
 		self._x, self._y = (display.width/2 - self._size[0],
 		                    display.height/2 - self._size[1])
 
-		self.serveBall()
 
 	def loadTexture(self):
 
@@ -31,16 +30,25 @@ class Ball(Entity):
 		self._rect    =  self._texture.get_rect()
 		self._size    =  self._texture.get_size()
 
-	def serveBall(self):
+
+	def serve(self):
 
 		self._x = self._display.width/2
 		self._y = self._display.height/2
 
 		self._trajectory = math.pi
 
+
 	def update(self, delta):
 
 		super(Ball, self).update(delta)
+
+		if not self.scene.isHost:
+
+			self._rect.left = self._x
+			self._rect.top = self._y
+
+			return
 
 		self._x = self._x + math.cos(self._trajectory)*delta*self._speed
 		self._y = self._y + math.sin(self._trajectory)*delta*self._speed

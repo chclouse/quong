@@ -29,6 +29,8 @@ class GameScene(Scene):
 
 		self._controller = KeyboardController(self, self._connection)
 
+		self._balls[0].serve()
+
 
 	def connect(self):
 
@@ -55,7 +57,7 @@ class GameScene(Scene):
 
 		for i in range(0, 4):
 
-			paddle = Paddle(self._display, i)
+			paddle = Paddle(self, self._display, i)
 
 			self._paddles.append(paddle)
 
@@ -64,7 +66,7 @@ class GameScene(Scene):
 
 	def initBall(self):
 
-		ball = Ball(self._display, self._paddles)
+		ball = Ball(self, self._display, self._paddles)
 
 		self._balls.append(ball)
 
@@ -115,13 +117,16 @@ class GameScene(Scene):
 		return self._balls
 	
 
-
 	@property
 	def controllers(self):
 		return self._controllers
+
+	@property
+	def isHost(self):
+
+		return self._host
 	
 
 	@property
 	def paddles(self):
 		return self._paddles
-	

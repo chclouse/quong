@@ -42,10 +42,20 @@ class Client:
 
 		for i in range(0, 4):
 
-			self._gameScene.paddles[i].x = positions[i][0]
-			self._gameScene.paddles[i].y = positions[i][1]
+			self._gameScene.paddles[i].x = positions[0][i][0]
+			self._gameScene.paddles[i].y = positions[0][i][1]
 
+		if not self._gameScene.isHost:
+
+			for i in range(len(positions[1])):
+
+				print("Updating ball...")
+
+				self._gameScene.balls[i].x = positions[1][i][0]
+				self._gameScene.balls[i].y = positions[1][i][1]
 
 	def stop(self):
 
 		self._socket.close()
+
+		print("Socket closed")

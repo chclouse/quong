@@ -2,8 +2,9 @@
 
 class Entity:
 
-	def __init__(self, display):
+	def __init__(self, scene, display):
 
+		self._scene   = scene
 		self._display = display
 
 
@@ -15,6 +16,12 @@ class Entity:
 	def draw(self, screen):
 
 		pass
+
+
+	@property
+	def scene(self):
+		return self._scene
+	
 
 
 	@property

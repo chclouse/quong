@@ -15,9 +15,9 @@ class Paddle(Entity):
 	SPEED_MAX =  1000
 	SPEED_MIN = -SPEED_MAX
 
-	def __init__(self, display, side = SIDE_LEFT):
+	def __init__(self, scene, display, side = SIDE_LEFT):
 
-		super(Paddle, self).__init__(display)
+		super(Paddle, self).__init__(scene, display)
 
 		self._side = side
 		self._texture = None
@@ -149,7 +149,13 @@ class Paddle(Entity):
 	@x.setter
 	def x(self, value):
 
-		self._x = min(max(value, self.height), self._display.width - self.width - self.height)
+		if self.side < 2:
+
+			self._x = 0 if self.side == 0 else self._display.width - self.width
+
+		else:
+
+			self._x = min(max(value, self.height), self._display.width - self.width - self.height)
 
 
 	@property
@@ -161,7 +167,13 @@ class Paddle(Entity):
 	@y.setter
 	def y(self, value):
 
-		self._y = min(max(value, self.width), self._display.height - self.height - self.width)
+		if self.side < 2:
+
+			self._y = min(max(value, self.width), self._display.height - self.width - self.height)
+
+		else:
+
+			self._y = 0 if self.side == 2 else self._display.height - self.height
 
 	@property
 	def width(self):
