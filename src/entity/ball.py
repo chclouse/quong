@@ -53,7 +53,7 @@ class Ball(Entity):
 
 			alterTraj = collidingPaddle._speed
 
-			print(collidingPaddle._speed)
+			#print(collidingPaddle._speed)
 
 			self._trajectory += (math.pi+alterTraj)
 

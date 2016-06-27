@@ -64,7 +64,7 @@ class Paddle(Entity):
 
 		self._speed = min(max(self._speed + speed * self._acceleration, Paddle.SPEED_MIN), Paddle.SPEED_MAX)
 
-		print(self._speed)
+		#print(self._speed)
 
 
 	def position(self):
