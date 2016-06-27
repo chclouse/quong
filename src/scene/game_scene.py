@@ -41,7 +41,7 @@ class GameScene(Scene):
 			self._server = Server(self)
 
 			for i in range(0, 4):
-				print("Created", i)
+				
 				self._controllers.append(AiController(self, self._paddles[i], i))
 
 			self._connection = Client('127.0.0.1', self)
