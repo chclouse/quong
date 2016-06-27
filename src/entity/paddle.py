@@ -98,6 +98,8 @@ class Paddle(Entity):
 				self._dx = self._speed
 
 		self._speed -= self._speed * self._acceleration
+		#self._speed *= self._acceleration
+		#print("-" + str(self._speed))
 
 
 	def draw(self, screen):

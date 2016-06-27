@@ -51,16 +51,9 @@ class Ball(Entity):
 
 		if collidingPaddle != None:
 
-			alterTraj = 0
+			alterTraj = collidingPaddle._speed
 
-			# actual physics
-			if collidingPaddle._dy > 1 or collidingPaddle._dx >1:
-				alterTraj = math.pi/6
-			elif collidingPaddle._dy < 1 or collidingPaddle._dx < 1:
-				alterTraj = (math.pi/6)*-1
-			else:
-				alterTraj = 0
-			print(str(alterTraj) + " | " + str(collidingPaddle._dy))
+			print(collidingPaddle._speed)
 
 			self._trajectory += (math.pi+alterTraj)
 
