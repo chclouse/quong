@@ -23,6 +23,9 @@ class Paddle(Entity):
 		self._delta = 0
 		self._speed = 500
 
+		self._dx = 0
+		self._dy = 0
+
 		self.loadTexture()
 		self.position()
 
@@ -58,11 +61,20 @@ class Paddle(Entity):
 
 		if self._side < 2:
 
-			self._y = min(max(self._y + (self._speed * direction)*self._delta, self.width), self._display.height - self.height - self.width)
+			self.y = min(max(self.y + (self._speed * direction)*self._delta, self.width), self._display.height - self.height - self.width)
+			self._dy = self._speed * direction
+			self._dx = 0
+
+		elif self._side > 2:
+
+			self.x = min(max(self.x + (self._speed * direction)*self._delta, self.height), self._display.width - self.width - self.height)
+			self._dx = self._speed*direction
+			self._dy = 0
 
 		else:
 
-			self._x = min(max(self.x + (self._speed * direction)*self._delta, self.height), self._display.width - self.width - self.height)
+			self._dx = 0
+			self._dy = 0
 
 
 	def position(self):

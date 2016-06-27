@@ -15,6 +15,7 @@ class Ball(Entity):
 		self._lastFrameTicks = pygame.time.get_ticks()
 		self._trajectory     = math.pi   # Change to random direction later.
 		self._paddles        = paddles
+		
 		self._collideSound   = pygame.mixer.Sound(ResourceLoader.sound('paddle_hit'))
 		self._lastPaddle     = None
 
@@ -22,6 +23,7 @@ class Ball(Entity):
 		self._x, self._y = (display.width/2 - self._size[0],
 		                    display.height/2 - self._size[1])
 
+		self.serveBall()
 
 	def loadTexture(self):
 
@@ -29,6 +31,12 @@ class Ball(Entity):
 		self._rect    =  self._texture.get_rect()
 		self._size    =  self._texture.get_size()
 
+	def serveBall(self):
+
+		self._x = self._display.width/2
+		self._y = self._display.height/2
+
+		self._trajectory = math.pi
 
 	def update(self, delta):
 
@@ -43,10 +51,16 @@ class Ball(Entity):
 
 		if collidingPaddle != None:
 
-			# In place of actual physics.
-			self._trajectory = (collidingPaddle.getNormal() + random.uniform(-0.25*math.pi, 0.25*math.pi)) % (2*math.pi)
-			self._lastPaddle = collidingPaddle
-			self._collideSound.play()
+			alterTraj = 0
+
+			# actual physics
+			if collidingPaddle._dy > 1 or collidingPaddle._dx >1:
+				alterTraj = math.pi/6
+			elif collidingPaddle._dy < 1 or collidingPaddle._dx < 1:
+				alterTraj = (math.pi/6)*-1
+
+
+			self._trajectory += (math.pi+alterTraj)
 
 
 	def draw(self, screen):
@@ -67,7 +81,7 @@ class Ball(Entity):
 
 		else:
 
-			print(self._paddles[collision].__dict__)
+
 			return self._paddles[collision]
 
 
