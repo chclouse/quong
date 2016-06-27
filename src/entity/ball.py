@@ -59,7 +59,7 @@ class Ball(Entity):
 
 		if collidingPaddle != None:
 
-			alterTraj = collidingPaddle._speed
+			alterTraj = collidingPaddle._speed*0.001
 
 			#print(collidingPaddle._speed)
 
