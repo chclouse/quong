@@ -17,11 +17,11 @@ class NetworkController(Controller):
 
 		if self._left:
 
-			self._paddle.move(-1)
+			self._paddle.move(-500)
 
 		elif self._right:
 
-			self._paddle.move(1)
+			self._paddle.move(500)
 
 
 	@property

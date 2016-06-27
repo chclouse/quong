@@ -12,6 +12,9 @@ class Paddle(Entity):
 	SIDE_TOP    = 2
 	SIDE_BOTTOM = 3
 
+	SPEED_MAX =  500
+	SPEED_MIN = -500
+
 	def __init__(self, display, side = SIDE_LEFT):
 
 		super(Paddle, self).__init__(display)
@@ -20,8 +23,8 @@ class Paddle(Entity):
 		self._texture = None
 		self._x = 0
 		self._y = 0
-		self._delta = 0
-		self._speed = 500
+		self._speed = 0
+		self._acceleration = 0.4
 
 		self._dx = 0
 		self._dy = 0
@@ -57,24 +60,9 @@ class Paddle(Entity):
 		self._rect    = self._texture.get_rect()
 
 
-	def move(self, direction):
+	def move(self, speed):
 
-		if self._side < 2:
-
-			self.y = min(max(self.y + (self._speed * direction)*self._delta, self.width), self._display.height - self.height - self.width)
-			self._dy = self._speed * direction
-			self._dx = 0
-
-		elif self._side > 2:
-
-			self.x = min(max(self.x + (self._speed * direction)*self._delta, self.height), self._display.width - self.width - self.height)
-			self._dx = self._speed*direction
-			self._dy = 0
-
-		else:
-
-			self._dx = 0
-			self._dy = 0
+		self._speed = min(max(self._speed + speed*self._acceleration, Paddle.SPEED_MIN), Paddle.SPEED_MAX)
 
 
 	def position(self):
@@ -92,7 +80,19 @@ class Paddle(Entity):
 
 		super(Paddle, self).update(delta)
 
-		self._delta = delta
+		if self._side < 2:
+
+			self.y += self._speed*delta
+			self._dy = self._speed
+			self._dx = 0
+
+		else:
+
+			self.x += self._speed*delta
+			self._dx = self._speed
+			self._dy = 0
+
+		self._speed *= self._acceleration
 
 
 	def draw(self, screen):
@@ -142,7 +142,7 @@ class Paddle(Entity):
 	@x.setter
 	def x(self, value):
 
-		self._x = int(value)
+		self._x = min(max(value, self.height), self._display.width - self.width - self.height)
 
 
 	@property
@@ -154,7 +154,7 @@ class Paddle(Entity):
 	@y.setter
 	def y(self, value):
 
-		self._y = int(value)
+		self._y = min(max(value, self.width), self._display.height - self.height - self.width)
 
 	@property
 	def width(self):
