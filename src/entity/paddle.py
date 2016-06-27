@@ -12,8 +12,8 @@ class Paddle(Entity):
 	SIDE_TOP    = 2
 	SIDE_BOTTOM = 3
 
-	SPEED_MAX =  500
-	SPEED_MIN = -500
+	SPEED_MAX =  1000
+	SPEED_MIN = -SPEED_MAX
 
 	def __init__(self, display, side = SIDE_LEFT):
 
@@ -24,7 +24,7 @@ class Paddle(Entity):
 		self._x = 0
 		self._y = 0
 		self._speed = 0
-		self._acceleration = 0.4
+		self._acceleration = 0.2
 
 		self._dx = 0
 		self._dy = 0
@@ -62,7 +62,9 @@ class Paddle(Entity):
 
 	def move(self, speed):
 
-		self._speed = min(max(self._speed + speed*self._acceleration, Paddle.SPEED_MIN), Paddle.SPEED_MAX)
+		self._speed = min(max(self._speed + speed * self._acceleration, Paddle.SPEED_MIN), Paddle.SPEED_MAX)
+
+		print(self._speed)
 
 
 	def position(self):
@@ -95,7 +97,7 @@ class Paddle(Entity):
 			if self._speed != 0:
 				self._dx = self._speed
 
-		self._speed *= self._acceleration
+		self._speed -= self._speed * self._acceleration
 
 
 	def draw(self, screen):
