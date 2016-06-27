@@ -1,6 +1,6 @@
-from entity.entity import *
+from core.resource_loader import *
+from entity.entity        import *
 import math
-import os
 import pygame
 import random
 
@@ -15,7 +15,7 @@ class Ball(Entity):
 		self._lastFrameTicks = pygame.time.get_ticks()
 		self._trajectory     = math.pi   # Change to random direction later.
 		self._paddles        = paddles
-		self._collideSound   = pygame.mixer.Sound("../res/sounds/paddle_hit.wav")
+		self._collideSound   = pygame.mixer.Sound(ResourceLoader.sound('paddle_hit'))
 		self._lastPaddle     = None
 
 		self.loadTexture()
@@ -25,8 +25,7 @@ class Ball(Entity):
 
 	def loadTexture(self):
 
-		directory = os.path.dirname(os.path.realpath(__file__))
-		self._texture =  pygame.image.load(directory + "/../../res/textures/ball.png")
+		self._texture =  pygame.image.load(ResourceLoader.texture('ball'))
 		self._rect    =  self._texture.get_rect()
 		self._size    =  self._texture.get_size()
 

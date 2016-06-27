@@ -1,4 +1,5 @@
-from entity.entity import *
+from core.resource_loader import *
+from entity.entity        import *
 import math
 import os
 import pygame
@@ -29,8 +30,7 @@ class Paddle(Entity):
 
 	def loadTexture(self):
 
-		directory = os.path.dirname(os.path.realpath(__file__))
-		self._texture = pygame.image.load(directory + "/../../res/textures/paddle.png")
+		self._texture = pygame.image.load(ResourceLoader.texture('paddle'))
 
 		if self._side == Paddle.SIDE_LEFT:
 
