@@ -25,13 +25,13 @@ class Server:
 		positions.append([(controller.paddle.x, controller.paddle.y) for controller in self._scene.controllers])
 		positions.append([(ball.x, ball.y) for ball in self._scene.balls])
 
-		print(positions)
+		print(positions, '\n\n')
 
 		for i in range(1, len(self._connections)):
 
 			try:
 				self._connections[i].send(pickle.dumps(positions))
-			except:
+			except socket.error:
 				pass
 
 

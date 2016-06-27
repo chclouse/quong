@@ -40,6 +40,10 @@ class Client:
 		except EOFError:
 			return
 
+		except Exception as e:
+			print(e, data.decode(), '\n\n')
+			return
+
 		for i in range(0, 4):
 
 			self._gameScene.paddles[i].x = positions[0][i][0]
@@ -48,8 +52,6 @@ class Client:
 		if not self._gameScene.isHost:
 
 			for i in range(len(positions[1])):
-
-				print("Updating ball...")
 
 				self._gameScene.balls[i].x = positions[1][i][0]
 				self._gameScene.balls[i].y = positions[1][i][1]
