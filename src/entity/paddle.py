@@ -80,17 +80,20 @@ class Paddle(Entity):
 
 		super(Paddle, self).update(delta)
 
+		self._dx = 0
+		self._dy = 0
+
 		if self._side < 2:
 
 			self.y += self._speed*delta
-			self._dy = self._speed
-			self._dx = 0
+			if self._speed != 0:
+				self._dy = self._speed
 
 		else:
 
 			self.x += self._speed*delta
-			self._dx = self._speed
-			self._dy = 0
+			if self._speed != 0:
+				self._dx = self._speed
 
 		self._speed *= self._acceleration
 

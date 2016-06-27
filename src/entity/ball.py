@@ -15,7 +15,7 @@ class Ball(Entity):
 		self._lastFrameTicks = pygame.time.get_ticks()
 		self._trajectory     = math.pi   # Change to random direction later.
 		self._paddles        = paddles
-		
+
 		self._collideSound   = pygame.mixer.Sound(ResourceLoader.sound('paddle_hit'))
 		self._lastPaddle     = None
 
@@ -58,7 +58,9 @@ class Ball(Entity):
 				alterTraj = math.pi/6
 			elif collidingPaddle._dy < 1 or collidingPaddle._dx < 1:
 				alterTraj = (math.pi/6)*-1
-
+			else:
+				alterTraj = 0
+			print(str(alterTraj) + " | " + str(collidingPaddle._dy))
 
 			self._trajectory += (math.pi+alterTraj)
 
