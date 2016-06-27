@@ -46,7 +46,7 @@ class Server:
 				self._connections.append(connection)
 
 			except Exception as e:
-				print(e)
+				pass
 
 		for i in range(len(self._connections)):
 
