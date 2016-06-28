@@ -51,6 +51,9 @@ class Client:
 
 				positions = pickle.loads(data)
 
+			except EOFError:
+				pass
+
 		if positions:
 
 			for i in range(0, 4):
