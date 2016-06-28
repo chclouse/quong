@@ -47,9 +47,15 @@ class Client:
 
 			buf = buf[length + 2:]
 
+<<<<<<< HEAD
 		if data:
 
 			positions = pickle.loads(data)
+=======
+		except Exception as e:
+			print(e, data, '\n\n')
+			return
+>>>>>>> ploof
 
 			for i in range(0, 4):
 
@@ -58,7 +64,13 @@ class Client:
 
 			if not self._gameScene.isHost:
 
+<<<<<<< HEAD
 				for i in range(len(positions[1])):
+=======
+			for i in range(len(positions[1])):
+
+				#print("Updating ball...")
+>>>>>>> ploof
 
 					self._gameScene.balls[i].x = positions[1][i][0]
 					self._gameScene.balls[i].y = positions[1][i][1]
