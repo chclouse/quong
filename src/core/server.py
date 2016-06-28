@@ -1,6 +1,7 @@
 from controller.network_controller import *
 import pickle
 import socket
+import struct
 
 class Server:
 
@@ -25,12 +26,13 @@ class Server:
 		positions.append([(controller.paddle.x, controller.paddle.y) for controller in self._scene.controllers])
 		positions.append([(ball.x, ball.y) for ball in self._scene.balls])
 
-		print(positions, '\n\n')
-
 		for i in range(1, len(self._connections)):
 
 			try:
-				self._connections[i].send(pickle.dumps(positions))
+				data   = pickle.dumps(positions)
+				packet = struct.pack('!H', len(data)) + data
+
+				self._connections[i].send(packet)
 			except socket.error:
 				pass
 

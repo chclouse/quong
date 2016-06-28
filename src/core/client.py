@@ -1,5 +1,6 @@
 import pickle
 import socket
+import struct
 
 QUONG_PORT = 6969
 
@@ -27,34 +28,40 @@ class Client:
 
 	def receive(self):
 
-		data = None
+		buf       = b''
+		data      = None
+		positions = None
 
-		try:
-			data = self._socket.recv(1024)
+		# Add all pending data to the buffer
+		while True:
+			try:
+				buf += self._socket.recv(1024)
+
+			except socket.error:
+				break
+
+		# Loop through and discard all old buffer data
+		while len(buf):
+			length    = struct.unpack('!H', buf[0:2])[0]
+			data      = buf[2:length + 2]
+
+			buf = buf[length + 2:]
+
+		if data:
 
 			positions = pickle.loads(data)
 
-		except socket.error:
-			return
+			for i in range(0, 4):
 
-		except EOFError:
-			return
+				self._gameScene.paddles[i].x = positions[0][i][0]
+				self._gameScene.paddles[i].y = positions[0][i][1]
 
-		except Exception as e:
-			print(e, data.decode(), '\n\n')
-			return
+			if not self._gameScene.isHost:
 
-		for i in range(0, 4):
+				for i in range(len(positions[1])):
 
-			self._gameScene.paddles[i].x = positions[0][i][0]
-			self._gameScene.paddles[i].y = positions[0][i][1]
-
-		if not self._gameScene.isHost:
-
-			for i in range(len(positions[1])):
-
-				self._gameScene.balls[i].x = positions[1][i][0]
-				self._gameScene.balls[i].y = positions[1][i][1]
+					self._gameScene.balls[i].x = positions[1][i][0]
+					self._gameScene.balls[i].y = positions[1][i][1]
 
 	def stop(self):
 
