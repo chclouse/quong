@@ -42,14 +42,19 @@ class Client:
 
 		# Loop through and discard all old buffer data
 		while len(buf):
-			length    = struct.unpack('!H', buf[0:2])[0]
-			data      = buf[2:length + 2]
 
-			buf = buf[length + 2:]
+			try:
+				length = struct.unpack('!H', buf[0:2])[0]
+				data   = buf[2:length + 2]
 
-		if data:
+				buf = buf[length + 2:]
 
-			positions = pickle.loads(data)
+				positions = pickle.loads(data)
+
+			except EOFError:
+				pass
+
+		if positions:
 
 			for i in range(0, 4):
 
