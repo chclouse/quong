@@ -4,6 +4,12 @@ import os
 class ResourceLoader:
 
 	@staticmethod
+	def configuration():
+
+		return ResourceLoader.directory() + '/../../quong.ini'
+
+
+	@staticmethod
 	def directory():
 
 		return os.path.dirname(os.path.realpath(__file__))

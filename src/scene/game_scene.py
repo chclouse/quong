@@ -1,6 +1,6 @@
 from controller.ai_controller import *
 from controller.keyboard_controller import *
-from controller.network_controller  import *
+from controller.paddle_controller  import *
 from core.client   import *
 from core.server   import *
 from entity.ball   import *
@@ -16,6 +16,7 @@ class GameScene(Scene):
 		super(GameScene, self).__init__(display)
 
 		self._host = False
+		self._controller  = None
 		self._controllers = []
 		self._paddles     = []
 		self._balls       = []
@@ -27,30 +28,7 @@ class GameScene(Scene):
 
 		self.connect()
 
-		self._controller = KeyboardController(self, self._connection)
-
 		self._balls[0].serve()
-
-
-	def connect(self):
-
-		print(sys.argv)
-
-		if len(sys.argv) == 1:
-
-			self._host = True
-
-			self._server = Server(self)
-
-			for i in range(0, 4):
-				
-				self._controllers.append(AiController(self, self._paddles[i], i))
-
-			self._connection = Client('127.0.0.1', self)
-
-		else:
-
-			self._connection = Client(sys.argv[1], self)
 
 
 	def initPaddles(self):
@@ -73,25 +51,45 @@ class GameScene(Scene):
 		self.addEntity(ball)
 
 
-	def update(self, events, delta):
+	def connect(self):
+		
+		if len(sys.argv) == 1:
 
-		super(GameScene, self).update(events, delta)
+			self._host   = True
+			self._server = Server(self)
+			self._server.start()
 
-		for event in events:
+			for i in range(0, 4):
+				self._controllers.append(AiController(self, self._paddles[i], i))
 
-			if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+		else:
 
-				self._controller.update(event, delta)
+			for i in range(0, 4):
+				self._controllers.append(PaddleController(self, self._paddles[i]))
+		print("Connecting...")
+		self._connection = Client('127.0.0.1' if self._host else sys.argv[1], self)
+		self._controller = KeyboardController(self, self._paddles[self._connection.id])
+		self._controllers[self._connection.id] = self._controller
 
-		for controller in self._controllers:
+		print(self._controllers[self._connection.id] == self._controller)
 
-			controller.update(delta)
 
-		if self._host:
+	def update(self, delta):
 
-			self._server.run()
+		super(GameScene, self).update(delta)
+
+		changed = False
 
 		self._connection.receive()
+
+		for controller in self._controllers:
+			changed |= controller.update(delta)
+
+		if self._controller.changed:
+			self._connection.send(self._controller)
+
+		if self._host and (changed or self._server.received):
+			self._server.send()
 
 
 	def draw(self, screen):
@@ -123,7 +121,6 @@ class GameScene(Scene):
 
 	@property
 	def isHost(self):
-
 		return self._host
 	
 

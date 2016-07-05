@@ -1,75 +1,112 @@
+from . config import *
 import pickle
 import socket
 import struct
+import time
 
-QUONG_PORT = 6969
 
 class Client:
 
 
-	def __init__(self, ipAddress, gameScene):
+	def __init__(self, host, scene):
 
-		self._ipAddress = ipAddress
-		self._gameScene = gameScene
-
+		self._host   = host
+		self._scene  = scene
+		self._id     = -1
 		self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self._socket.connect((ipAddress, QUONG_PORT))
-		self._socket.setblocking(False)
 
-		self._done = False
+		self.connect()
 
 		print("Connected")
 
 
-	def send(self, key):
+	def connect(self):
 
-		self._socket.send(key.to_bytes(1, byteorder='big'))
+		port = Config.PORT
+		while True:
+			try:
+				self._socket.connect((self._host, port)) # Temporary try that finds moved port
+				break
+			except:
+				port -= 1
+
+		self._id = pickle.loads(self._socket.recv(1024))[0]
+		self._socket.setblocking(False)
+
+
+	def send(self, controller):
+
+		self._socket.send(
+			pickle.dumps(
+				(controller.left, controller.right)
+			)
+		)
 
 
 	def receive(self):
 
-		buf       = b''
-		data      = None
-		positions = None
-
+		buffer = b''
+		data   = None
+		
 		# Add all pending data to the buffer
 		while True:
 			try:
-				buf += self._socket.recv(1024)
-
+				buffer += self._socket.recv(1024)
 			except socket.error:
 				break
 
+			except Exception as e:
+				print(e)
+				break
+
 		# Loop through and discard all old buffer data
-		while len(buf):
+		while len(buffer):
 
 			try:
-				length = struct.unpack('!H', buf[0:2])[0]
-				data   = buf[2:length + 2]
+				length = struct.unpack('!H', buffer[0:2])[0]
+				packet = buffer[2:length + 2]
 
-				buf = buf[length + 2:]
+				buffer = buffer[length + 2:]
 
-				positions = pickle.loads(data)
+				data = pickle.loads(packet)
 
-			except EOFError:
-				pass
+			except EOFError as e:
+				print(e)
 
-		if positions:
+		if data:
 
-			for i in range(0, 4):
+			self.updateScene(data)
 
-				self._gameScene.paddles[i].x = positions[0][i][0]
-				self._gameScene.paddles[i].y = positions[0][i][1]
+			#if not self._scene.isHost:
 
-			if not self._gameScene.isHost:
+			#	for i in range(len(positions[1])):
 
-				for i in range(len(positions[1])):
+			#		self._scene.balls[i].x = positions[1][i][0]
+			#		self._scene.balls[i].y = positions[1][i][1]
+		
+		return data
+					
+					
+	def updateScene(self, data):
 
-					self._gameScene.balls[i].x = positions[1][i][0]
-					self._gameScene.balls[i].y = positions[1][i][1]
+		for i in range(0, 4):
+
+			controller = self._scene.controllers[i]
+
+			controller.left     = data[1][i][0]
+			controller.right    = data[1][i][1]
+			controller.paddle.x = data[1][i][2]
+			controller.paddle.y = data[1][i][3]
+
 
 	def stop(self):
 
+		print("Closing...")
 		self._socket.close()
-
 		print("Socket closed")
+
+
+	@property
+	def id(self):
+		return self._id
+	

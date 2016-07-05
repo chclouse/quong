@@ -1,24 +1,38 @@
-from . controller import *
+from . paddle_controller import *
+from core.event_manager import *
 import pygame
 
 
-class KeyboardController(Controller):
+class KeyboardController(PaddleController):
 
-	validKeys = (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT)
+	KEYS_LEFT_UP    = (pygame.K_UP,   pygame.K_LEFT)
+	KEYS_RIGHT_DOWN = (pygame.K_DOWN, pygame.K_RIGHT)
 
-	def __init__(self, scene, connection):
+	def __init__(self, scene, paddle):
 
-		super(KeyboardController, self).__init__(scene)
+		super(KeyboardController, self).__init__(scene, paddle)
 
-		self._connection = connection
+		EventManager.onKeyPress(self.keyEvent)
+		EventManager.onKeyRelease(self.keyEvent)
 
 
-	def update(self, update, delta):
+	def keyEvent(self, event):
 
-		if update.key in KeyboardController.validKeys:
+		pressed = event.type == pygame.KEYDOWN
 
-			keyPressed = 0x4 if update.type == pygame.KEYDOWN else 0x0
-			keyDownRight = 0x2 if update.key in (pygame.K_DOWN, pygame.K_RIGHT) else 0x0
-			keyLeftUp = 0x1 if update.key in (pygame.K_UP, pygame.K_LEFT) else 0x0
+		if event.key in KeyboardController.KEYS_LEFT_UP:
+			if pressed != self.left:
+				self.changed = True
 
-			self._connection.send(keyPressed | keyDownRight | keyLeftUp)
+			self.left = pressed
+
+		elif event.key in KeyboardController.KEYS_RIGHT_DOWN:
+			if pressed != self.right:
+				self.changed = True
+
+			self.right = pressed
+
+
+	def update(self, delta):
+
+		return super(KeyboardController, self).update(delta)
